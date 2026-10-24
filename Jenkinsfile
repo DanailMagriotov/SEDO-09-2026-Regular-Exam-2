@@ -4,7 +4,10 @@ pipeline {
     stages {
         stage("Restore the project") {
             when {
-                branch "main"
+                expression {
+                    env.GIT_BRANCH == 'origin/main' ||
+                    env.BRANCH_NAME == 'main'
+                }
             }
             steps {
                 bat "dotnet restore"
@@ -13,7 +16,10 @@ pipeline {
 
         stage("Build the project") {
             when {
-                branch "main"
+                expression {
+                    env.GIT_BRANCH == 'origin/main' ||
+                    env.BRANCH_NAME == 'main'
+                }
             }
             steps {
                 bat "dotnet build --no-restore"
@@ -22,7 +28,10 @@ pipeline {
 
         stage("Test the project") {
             when {
-                branch "main"
+                expression {
+                    env.GIT_BRANCH == 'origin/main' ||
+                    env.BRANCH_NAME == 'main'
+                }
             }
             steps {
                 bat "dotnet test --no-build --no-restore"
